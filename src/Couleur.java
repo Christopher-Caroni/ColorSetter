@@ -11,21 +11,24 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import javafx.scene.image.Image;
 
-public class Couleur extends JPanel{
+public class Couleur extends JPanel implements ChangeListener{
 
 	private JLabel imageLabel;
 	private ImageIcon image;
 	private JSlider couleurSLider;
 	private JSlider grisSlider;
+	private Color couleur;
+	private Color gris;
 	private JLabel couleurLabel;
 	private JLabel grisLabel;
-	private int grisValeur;
-	private int couleurValeur;
+	private double grisValeur;
+	private double couleurValeur;
 	
 	public Couleur () {
 		
@@ -33,31 +36,34 @@ public class Couleur extends JPanel{
 		imageLabel = new JLabel(image);
 		imageLabel.setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight()));
 		
+		
+		Border border = new LineBorder(Color.BLACK, 3);
 		couleurSLider = new JSlider(0, 100, 50);
 		grisSlider = new JSlider(0, 100, 50);
-		couleurLabel = new JLabel("label");
-		couleurLabel.setBackground(Color.WHITE);
-		grisLabel = new JLabel("label");
-		grisLabel.setBackground(Color.WHITE);
-		couleurSLider.setPreferredSize(new Dimension(100 ,20));
-		grisSlider.setPreferredSize(new Dimension(100 ,20));
+		couleurSLider.setPreferredSize(new Dimension(150 ,20));
+		grisSlider.setPreferredSize(new Dimension(150 ,20));
 		
-		grisValeur = 0;
-		couleurValeur = 0;
 		
-		couleurSLider.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				couleurValeur = couleurSLider.getValue();
-			}
-		});
-		grisSlider.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				grisValeur = grisSlider.getValue();
-			}
-		});
+		gris = new Color(128, 128, 128);
+		couleur = new Color(255, 255, 255);
+		couleurLabel = new JLabel();
+		couleurLabel.setBackground(couleur);
+		couleurLabel.setOpaque(true);
+		couleurLabel.setPreferredSize(new Dimension(64, 64));
+		couleurLabel.setBorder(border);
 		
+		grisLabel = new JLabel();
+		grisLabel.setBackground(gris);
+		grisLabel.setOpaque(true);
+		grisLabel.setPreferredSize(new Dimension(64, 64));
+		grisLabel.setBorder(border);
+
+		couleurValeur = couleurSLider.getValue();
+		grisValeur = grisSlider.getValue();
+		
+		couleurSLider.addChangeListener(this);
+		grisSlider.addChangeListener(this);
+
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(imageLabel);
@@ -68,6 +74,19 @@ public class Couleur extends JPanel{
 		panelSlider.add(grisSlider);
 		add(panelSlider);
 		setSize(new Dimension(800, 70));
-				
+	}
+	
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		if (e.getSource().equals(couleurSLider)) {
+			couleurValeur = couleurSLider.getValue();
+		} else {
+			grisValeur = grisSlider.getValue();
+			grisValeur = grisValeur / 100;
+			// a recopier la formule a partir de la vraie couleur et non diretement de nuances de gris
+			gris = new Color((int) (grisValeur * 255), (int) (grisValeur * 255), (int) (grisValeur * 255));
+			grisLabel.setBackground(gris);
+		}
+		repaint();
 	}
 }
