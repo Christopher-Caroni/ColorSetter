@@ -1,17 +1,25 @@
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class Couleur extends JPanel{
+import javafx.scene.image.Image;
 
-	private BufferedImage image;
+public class Couleur{
+
+	private JPanel panel;
+	private JLabel imageLabel;
+	private ImageIcon image;
 	private JSlider couleurSLider;
 	private JSlider grisSlider;
 	private JLabel couleurLabel;
@@ -20,15 +28,21 @@ public class Couleur extends JPanel{
 	private int couleurValeur;
 	
 	public Couleur () {
-		image = null;
-		try {
-			image = ImageIO.read(new File("strawberry.jpg"));
-		} catch (IOException e) {
-		}
+		panel = new JPanel();
+		
+		image = new ImageIcon(Couleur.class.getResource("SpectrumBar.jpg"));
+		imageLabel = new JLabel(image);
+		imageLabel.setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight()));
+		
 		couleurSLider = new JSlider(0, 100, 50);
 		grisSlider = new JSlider(0, 100, 50);
-		couleurLabel = new JLabel();
-		grisLabel = new JLabel();
+		couleurLabel = new JLabel("label");
+		couleurLabel.setBackground(Color.WHITE);
+		grisLabel = new JLabel("label");
+		grisLabel.setBackground(Color.WHITE);
+		couleurSLider.setPreferredSize(new Dimension(50 ,20));
+		grisSlider.setPreferredSize(new Dimension(100 ,20));
+		
 		grisValeur = 0;
 		couleurValeur = 0;
 		
@@ -45,11 +59,21 @@ public class Couleur extends JPanel{
 			}
 		});
 		
-	//	panel.add(image);
-		add(couleurLabel);
-		add(grisLabel);
-		add(grisSlider);
 		
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		panel.add(imageLabel);
+		panel.add(couleurLabel);
+		panel.add(grisLabel);
 		
+		JPanel panelSlider = new JPanel();
+		panelSlider.setPreferredSize(new Dimension(100,70));
+		panelSlider.add(grisSlider);
+		panel.add(panelSlider);
+		panel.setSize(new Dimension(800, 70));
+				
+	}
+	
+	public JPanel getPanel() {
+		return panel;
 	}
 }
