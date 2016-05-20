@@ -1,12 +1,17 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class Couleur {
+public class Couleur extends JPanel{
 
-	private JPanel panel;
+	private BufferedImage image;
 	private JSlider couleurSLider;
 	private JSlider grisSlider;
 	private JLabel couleurLabel;
@@ -15,8 +20,11 @@ public class Couleur {
 	private int couleurValeur;
 	
 	public Couleur () {
-		panel = new JPanel();
-		
+		image = null;
+		try {
+			image = ImageIO.read(new File("strawberry.jpg"));
+		} catch (IOException e) {
+		}
 		couleurSLider = new JSlider(0, 100, 50);
 		grisSlider = new JSlider(0, 100, 50);
 		couleurLabel = new JLabel();
@@ -38,13 +46,10 @@ public class Couleur {
 		});
 		
 	//	panel.add(image);
-		panel.add(couleurLabel);
-		panel.add(grisLabel);
-		panel.add(grisSlider);
+		add(couleurLabel);
+		add(grisLabel);
+		add(grisSlider);
 		
 		
 	}
-	
-	
-	
 }
