@@ -10,16 +10,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class Principle{
+public class Principle extends JFrame{
 
 	List<Couleur> colors = new ArrayList<Couleur>();
-	private JFrame frame;
 	
 	public Principle() {
-		frame = new JFrame();
 		colors.add(new Couleur());
 		
-		frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		JButton b = new JButton("Ajouter une couleur");
 		
 		b.addActionListener(new ActionListener() {
@@ -27,21 +25,21 @@ public class Principle{
 			public void actionPerformed(ActionEvent arg0) {
 				colors.add(new Couleur());
 				for(Couleur c : colors){
-					frame.add(c.getPanel());
+					add(c);
 				}		
 			}
 		});
 		
-		frame.add(b);
-		frame.add(new Couleur().getPanel());
+		add(b);
+		add(new Couleur());
 
-		frame.setSize(new Dimension(800,500));
-		frame.setTitle("Color setter");
+		setSize(new Dimension(1000,500));
+		setTitle("Color setter");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
 		double height = screenSize.getHeight();
-		frame.setLocation((int) ((width/2 - frame.getWidth()/2)), (int) (height/2 - frame.getHeight()/2));
-		frame.setVisible(true);
+		setLocation((int) ((width/2 - this.getWidth()/2)), (int) (height/2 - this.getHeight()/2));
+		setVisible(true);
 		
 	}
 }

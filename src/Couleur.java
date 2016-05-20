@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,9 +16,8 @@ import javax.swing.event.ChangeListener;
 
 import javafx.scene.image.Image;
 
-public class Couleur{
+public class Couleur extends JPanel{
 
-	private JPanel panel;
 	private JLabel imageLabel;
 	private ImageIcon image;
 	private JSlider couleurSLider;
@@ -28,7 +28,6 @@ public class Couleur{
 	private int couleurValeur;
 	
 	public Couleur () {
-		panel = new JPanel();
 		
 		image = new ImageIcon(Couleur.class.getResource("SpectrumBar.jpg"));
 		imageLabel = new JLabel(image);
@@ -40,7 +39,7 @@ public class Couleur{
 		couleurLabel.setBackground(Color.WHITE);
 		grisLabel = new JLabel("label");
 		grisLabel.setBackground(Color.WHITE);
-		couleurSLider.setPreferredSize(new Dimension(50 ,20));
+		couleurSLider.setPreferredSize(new Dimension(100 ,20));
 		grisSlider.setPreferredSize(new Dimension(100 ,20));
 		
 		grisValeur = 0;
@@ -60,20 +59,15 @@ public class Couleur{
 		});
 		
 		
-		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-		panel.add(imageLabel);
-		panel.add(couleurLabel);
-		panel.add(grisLabel);
+		setLayout(new FlowLayout(FlowLayout.LEFT));
+		add(imageLabel);
+		add(couleurLabel);
+		add(grisLabel);
 		
 		JPanel panelSlider = new JPanel();
-		panelSlider.setPreferredSize(new Dimension(100,70));
 		panelSlider.add(grisSlider);
-		panel.add(panelSlider);
-		panel.setSize(new Dimension(800, 70));
+		add(panelSlider);
+		setSize(new Dimension(800, 70));
 				
-	}
-	
-	public JPanel getPanel() {
-		return panel;
 	}
 }
