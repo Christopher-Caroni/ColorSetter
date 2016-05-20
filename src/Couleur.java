@@ -28,7 +28,7 @@ public class Couleur extends JPanel implements ChangeListener{
 	private JLabel couleurLabel;
 	private JLabel grisLabel;
 	private double grisValeur;
-	private double couleurValeur;
+	private int couleurValeur;
 	
 	public Couleur () {
 		
@@ -38,7 +38,7 @@ public class Couleur extends JPanel implements ChangeListener{
 		
 		
 		Border border = new LineBorder(Color.BLACK, 3);
-		couleurSLider = new JSlider(0, 100, 50);
+		couleurSLider = new JSlider(0, 16777215, 50);
 		grisSlider = new JSlider(0, 100, 50);
 		couleurSLider.setPreferredSize(new Dimension(150 ,20));
 		grisSlider.setPreferredSize(new Dimension(150 ,20));
@@ -69,10 +69,8 @@ public class Couleur extends JPanel implements ChangeListener{
 		add(imageLabel);
 		add(couleurLabel);
 		add(grisLabel);
-		
-		JPanel panelSlider = new JPanel();
-		panelSlider.add(grisSlider);
-		add(panelSlider);
+		add(grisSlider);
+		add(couleurSLider);
 		setSize(new Dimension(800, 70));
 	}
 	
@@ -80,6 +78,7 @@ public class Couleur extends JPanel implements ChangeListener{
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource().equals(couleurSLider)) {
 			couleurValeur = couleurSLider.getValue();
+			couleurLabel.setBackground(Color.decode("0x" + Integer.toHexString(couleurValeur)));
 		} else {
 			grisValeur = grisSlider.getValue();
 			grisValeur = grisValeur / 100;
