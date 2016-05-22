@@ -13,16 +13,13 @@ import javax.swing.JPanel;
 
 public class Principle extends JFrame{
 
-	List<Couleur> colors = new ArrayList<Couleur>();
 	private JPanel panel;
 	
 	public Principle() {
 		
 		panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
-		colors.add(new Couleur());
-		
+				
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		JButton b = new JButton("Ajouter une couleur");
 		b.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -30,10 +27,7 @@ public class Principle extends JFrame{
 		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				colors.add(new Couleur());
-				for(Couleur c : colors){
-					panel.add(c);
-				}
+				panel.add(new Couleur());
 				validate();
 				repaint();
 			}
