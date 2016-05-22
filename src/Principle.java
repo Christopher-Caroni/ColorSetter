@@ -34,6 +34,7 @@ public class Principle extends JFrame{
 				for(Couleur c : colors){
 					panel.add(c);
 				}
+				validate();
 				repaint();
 			}
 		});
