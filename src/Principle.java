@@ -16,6 +16,8 @@ public class Principle extends JFrame{
 	public Principle() {
 		colors.add(new Couleur());
 		
+		setSize(new Dimension(1000,500));
+		setTitle("Color setter");
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		JButton b = new JButton("Ajouter une couleur");
 		
@@ -25,15 +27,15 @@ public class Principle extends JFrame{
 				colors.add(new Couleur());
 				for(Couleur c : colors){
 					add(c);
-				}		
+				}
+				repaint();
 			}
 		});
 		
 		add(b);
 		add(new Couleur());
 
-		setSize(new Dimension(1000,500));
-		setTitle("Color setter");
+
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
 		double height = screenSize.getHeight();

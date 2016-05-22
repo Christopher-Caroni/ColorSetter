@@ -22,10 +22,12 @@ public class Couleur extends JPanel {
 	private ImageIcon image;
 	private Color couleur;
 	private Color gris;
-	private JLabel couleurLabel;
+	private JLabel couleurBox;
 	private JLabel grisLabel;
 	private int niveauGris;
 	private MouseInput mouse;
+	
+	private JLabel couleurLabel;
 	
 	public Couleur () {
 		
@@ -45,22 +47,25 @@ public class Couleur extends JPanel {
 		Border border = new LineBorder(Color.BLACK, 3);
 		gris = new Color(128, 128, 128);
 		couleur = new Color(255, 255, 255);
-		couleurLabel = new JLabel();
-		couleurLabel.setBackground(couleur);
-		couleurLabel.setOpaque(true);
-		couleurLabel.setPreferredSize(new Dimension(64, 64));
-		couleurLabel.setBorder(border);
+		couleurBox = new JLabel();
+		couleurBox.setBackground(couleur);
+		couleurBox.setOpaque(true);
+		couleurBox.setPreferredSize(new Dimension(64, 64));
+		couleurBox.setBorder(border);
 		
 		grisLabel = new JLabel();
 		grisLabel.setBackground(gris);
 		grisLabel.setOpaque(true);
 		grisLabel.setPreferredSize(new Dimension(64, 64));
-		grisLabel.setBorder(border);	
+		grisLabel.setBorder(border);
 		
-		setLayout(new FlowLayout(FlowLayout.LEFT));
+		couleurLabel = new JLabel("Couleur Numero ?");	
+		
+		setLayout(new FlowLayout(FlowLayout.LEFT, 15, 15));
 		add(imageLabel);
-		add(couleurLabel);
+		add(couleurBox);
 		add(grisLabel);
+		add(couleurLabel);
 		setSize(new Dimension(800, 70));
 	}
 	
@@ -92,5 +97,9 @@ public class Couleur extends JPanel {
 			grisLabel.setBackground(gris);
 			repaint();
 		}
+	}
+	
+	public void setName(String name) {
+		couleurLabel.setText(name);
 	}
 }
