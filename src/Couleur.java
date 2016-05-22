@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.event.MouseInputAdapter;
@@ -24,6 +25,7 @@ public class Couleur extends JPanel {
 	private Color gris;
 	private JLabel couleurLabel;
 	private JLabel grisLabel;
+	private JTextField rgb = new JTextField();
 	private int niveauGris;
 	private MouseInput mouse;
 	
@@ -55,12 +57,17 @@ public class Couleur extends JPanel {
 		grisLabel.setBackground(gris);
 		grisLabel.setOpaque(true);
 		grisLabel.setPreferredSize(new Dimension(64, 64));
-		grisLabel.setBorder(border);	
+		grisLabel.setBorder(border);
+		
+		rgb.setText(couleur.getRed()+" , "+couleur.getGreen()+" , "+couleur.getBlue());
+		rgb.setEditable(false);
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(imageLabel);
 		add(couleurLabel);
 		add(grisLabel);
+		add(new JLabel("                      "));
+		add(rgb);
 		setSize(new Dimension(800, 70));
 	}
 	
@@ -90,6 +97,8 @@ public class Couleur extends JPanel {
 			niveauGris = (int) ((0.3 * couleur.getRed()) + (0.56 * couleur.getGreen()) + (0.11 * couleur.getBlue()));
 			gris = new Color(niveauGris, niveauGris, niveauGris);
 			grisLabel.setBackground(gris);
+			// actualisation du code rgb
+			rgb.setText(couleur.getRed()+" , "+couleur.getGreen()+" , "+couleur.getBlue());
 			repaint();
 		}
 	}
