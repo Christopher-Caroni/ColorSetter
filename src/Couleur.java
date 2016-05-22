@@ -2,8 +2,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -14,23 +12,19 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.MouseInputAdapter;
 
 
-public class Couleur extends JPanel implements ChangeListener {
+public class Couleur extends JPanel {
 
 	private BufferedImage buffer;
 	private JLabel imageLabel;
 	private ImageIcon image;
-	private JSlider couleurSLider;
-	private JSlider grisSlider;
 	private Color couleur;
 	private Color gris;
 	private JLabel couleurLabel;
 	private JLabel grisLabel;
-	private double grisValeur;
+	private int niveauGris;
 	private MouseInput mouse;
 	
 	public Couleur () {
@@ -49,12 +43,6 @@ public class Couleur extends JPanel implements ChangeListener {
 		imageLabel.addMouseMotionListener(mouse);
 		
 		Border border = new LineBorder(Color.BLACK, 3);
-		couleurSLider = new JSlider(0, image.getIconWidth(), 50);
-		grisSlider = new JSlider(0, 100, 50);
-		couleurSLider.setPreferredSize(new Dimension(150 ,20));
-		grisSlider.setPreferredSize(new Dimension(150 ,20));
-		
-		
 		gris = new Color(128, 128, 128);
 		couleur = new Color(255, 255, 255);
 		couleurLabel = new JLabel();
@@ -67,33 +55,13 @@ public class Couleur extends JPanel implements ChangeListener {
 		grisLabel.setBackground(gris);
 		grisLabel.setOpaque(true);
 		grisLabel.setPreferredSize(new Dimension(64, 64));
-		grisLabel.setBorder(border);
-
-		grisValeur = grisSlider.getValue();
-		
-		couleurSLider.addChangeListener(this);
-		grisSlider.addChangeListener(this);
-
+		grisLabel.setBorder(border);	
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(imageLabel);
 		add(couleurLabel);
 		add(grisLabel);
-		add(grisSlider);
-		add(couleurSLider);
 		setSize(new Dimension(800, 70));
-	}
-	
-	@Override
-	public void stateChanged(ChangeEvent e) {
-		if (e.getSource().equals(grisSlider)) {
-			grisValeur = grisSlider.getValue();
-			grisValeur = grisValeur / 100;
-			// a recopier la formule a partir de la vraie couleur et non diretement de nuances de gris
-			gris = new Color((int) (grisValeur * 255), (int) (grisValeur * 255), (int) (grisValeur * 255));
-			grisLabel.setBackground(gris);
-		}
-		repaint();
 	}
 	
 	/**
@@ -104,22 +72,25 @@ public class Couleur extends JPanel implements ChangeListener {
 	public class MouseInput extends MouseInputAdapter {
 		@Override
 		public void mouseDragged(MouseEvent arg0) {
-			// ignore les bords noirs
-			if (arg0.getX() >= 5 && arg0.getX() < image.getIconWidth()-5) {
-				couleurSLider.setValue(arg0.getX());
-				couleurLabel.setBackground(new Color(buffer.getRGB(arg0.getX(), 50)));
-				repaint();
-			}
+			changeCouleur(arg0);
 		}
 		
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// ignore les bords noirs
-			if (e.getX() >= 5 && e.getX() < image.getIconWidth()-5) {
-				couleurSLider.setValue(e.getX());
-				couleurLabel.setBackground(new Color(buffer.getRGB(e.getX(), 50)));
-				repaint();
-			}
+			changeCouleur(e);
+		}
+	}
+	
+	public void changeCouleur(MouseEvent e) {
+		// ignore les bords noirs
+		if (e.getX() >= 5 && e.getX() < image.getIconWidth()-5) {
+			couleur = new Color(buffer.getRGB(e.getX(), 50));
+			couleurLabel.setBackground(couleur);
+			// d'apres la formule du sujet
+			niveauGris = (int) ((0.3 * couleur.getRed()) + (0.56 * couleur.getGreen()) + (0.11 * couleur.getBlue()));
+			gris = new Color(niveauGris, niveauGris, niveauGris);
+			grisLabel.setBackground(gris);
+			repaint();
 		}
 	}
 }
