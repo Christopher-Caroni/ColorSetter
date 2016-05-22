@@ -27,9 +27,11 @@ public class Principle extends JFrame{
 		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				panel.add(new Couleur());
-				validate();
-				repaint();
+				if (panel.getComponentCount() < 10) {
+					panel.add(new Couleur());
+					validate();
+					repaint();
+				}
 			}
 		});
 		
