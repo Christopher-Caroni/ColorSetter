@@ -38,7 +38,7 @@ public class Principle extends JFrame{
 				}
 			}
 		});
-		JLabel legend = new JLabel("                                       Selectionner une couleur                                         Couleur     Niveau de gris                          Code RGB");
+		JLabel legend = new JLabel("                            Selectionner une couleur                               Couleur       Niveau de gris                    Code RGB");
 		panel.add(legend);
 		panel.add(new Couleur());
 		JScrollPane scroll = new JScrollPane(panel);
@@ -48,7 +48,7 @@ public class Principle extends JFrame{
 		add(scroll);
 		add(button);
 
-		setSize(new Dimension(750,500));
+		setSize(new Dimension(850,500));
 		setTitle("Color setter");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();

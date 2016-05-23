@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -64,9 +65,11 @@ public class Couleur extends JPanel {
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(imageLabel);
+		add(Box.createRigidArea(new Dimension(30, 25)));
 		add(couleurLabel);
+		add(Box.createRigidArea(new Dimension(30, 25)));
 		add(grisLabel);
-		add(new JLabel("                      "));
+		add(Box.createRigidArea(new Dimension(75, 25)));
 		add(rgb);
 		setSize(new Dimension(800, 70));
 	}
