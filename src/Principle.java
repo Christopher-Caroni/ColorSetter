@@ -52,7 +52,7 @@ public class Principle extends JFrame{
 				}
 			}
 		});
-		JLabel legend = new JLabel("                            Selectionner une couleur                               Couleur       Niveau de gris                    Code RGB");
+		JLabel legend = new JLabel("                            Selectionner une couleur                               Couleur       Niveau de gris                    Code RGB                  Code Héxadécimal");
 		panel.add(legend);
 		list.add(new Couleur());
 		panel.add(list.get(0));
@@ -64,7 +64,7 @@ public class Principle extends JFrame{
 		add(scroll);
 		add(button);
 
-		setSize(new Dimension(850, 400));
+		setSize(new Dimension(1000, 400));
 		setMinimumSize(getSize());
 		setTitle("Color setter");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

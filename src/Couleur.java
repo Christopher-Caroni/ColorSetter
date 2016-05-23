@@ -27,6 +27,7 @@ public class Couleur extends JPanel {
 	private JLabel couleurLabel;
 	private JLabel grisLabel;
 	private JTextField rgb = new JTextField();
+	private JTextField hexa = new JTextField();
 	private int niveauGris;
 	private MouseInput mouse;
 	
@@ -63,6 +64,10 @@ public class Couleur extends JPanel {
 		rgb.setText(couleur.getRed()+" , "+couleur.getGreen()+" , "+couleur.getBlue());
 		rgb.setEditable(false);
 		
+		hexa.setText(""+Integer.toHexString(couleur.getRed())+Integer.toHexString(couleur.getGreen())+Integer.toHexString(couleur.getBlue()));
+		hexa.setText("0x"+hexa.getText().toUpperCase());
+		hexa.setEditable(false);
+		
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(imageLabel);
 		add(Box.createRigidArea(new Dimension(30, 25)));
@@ -71,6 +76,8 @@ public class Couleur extends JPanel {
 		add(grisLabel);
 		add(Box.createRigidArea(new Dimension(75, 25)));
 		add(rgb);
+		add(Box.createRigidArea(new Dimension(75, 25)));
+		add(hexa);
 		setSize(new Dimension(800, 70));
 	}
 	
