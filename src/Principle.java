@@ -107,6 +107,7 @@ public class Principle extends JFrame implements ActionListener {
 		} else if (e.getSource().equals(clear)) {
 			list.clear();
 			panel.removeAll();
+			topCheckBox.setSelected(true);
 			panel.add(topPanel);
 			list.add(new Couleur());
 			panel.add(list.get(0));
