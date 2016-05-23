@@ -64,7 +64,6 @@ public class Apercu extends JFrame {
 
 		for (int i = 0; i< liste.size();i++) {
 			if (liste.get(i).isChecked()) {
-				System.out.println("i = " + i);
 				g.setColor(Color.BLACK);
 				g.drawString("Couleur " + (i+1), x,  getHeight() - ((int)(VERTICAL_OFFSET / 1.5)) );
 				g.fillRect(x-1, getHeight()-hauteurHistogrammes.get(i) - VERTICAL_OFFSET-1, 50+2, hauteurHistogrammes.get(i)+2); // rectangle noir en dessous = border
