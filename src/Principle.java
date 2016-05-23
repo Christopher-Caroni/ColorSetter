@@ -126,17 +126,17 @@ public class Principle extends JFrame implements ActionListener {
 					c.setIsChecked(false);
 				}
 			}
-		} else {
-			boolean tous = true;
+		} else if (e.getSource().equals(apercuButton)){
+			boolean tousFalse = true;
 			for (Couleur c : list) {
-				if (!c.isChecked()) {
-					tous = false;
+				if (c.isChecked()) {
+					tousFalse = false;
 				}
 			}
-			if (tous) {
+			if (!tousFalse) {
 				apercu = new Apercu(list);
 				apercu.repaint();
-			} else if (e.getSource().equals(apercu)){
+			} else {
 				Object[] options = { "Oui, merci !", "Non merci !" };
 				int n = JOptionPane.showOptionDialog(this, "Vous n'avez validée aucune couleur. Voulez-vous tous les valider et passer à l'aperçu ?", "Aucune couleur validée",
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
@@ -144,6 +144,7 @@ public class Principle extends JFrame implements ActionListener {
 					for (Couleur c : list) {
 						c.setIsChecked(true);
 					}
+					topCheckBox.setSelected(true);
 					apercu = new Apercu(list);
 					apercu.repaint();
 				}
