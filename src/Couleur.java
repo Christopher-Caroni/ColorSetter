@@ -109,6 +109,8 @@ public class Couleur extends JPanel {
 			grisLabel.setBackground(gris);
 			// actualisation du code rgb
 			rgb.setText(couleur.getRed()+" , "+couleur.getGreen()+" , "+couleur.getBlue());
+			hexa.setText(""+Integer.toHexString(couleur.getRed())+Integer.toHexString(couleur.getGreen())+Integer.toHexString(couleur.getBlue()));
+			hexa.setText("0x"+hexa.getText().toUpperCase());
 			repaint();
 		}
 	}
