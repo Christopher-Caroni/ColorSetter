@@ -19,10 +19,12 @@ import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
 @SuppressWarnings("serial")
-public class Principle extends JFrame{
+public class Principle extends JFrame implements ActionListener {
 
 	private JPanel panel;
 	private List<Couleur> list;
+	private JButton ajouterButton;
+	private Apercu apercu;
 	
 	public Principle() {
 		
@@ -31,26 +33,7 @@ public class Principle extends JFrame{
 		list = new ArrayList<>();
 				
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-		JButton button = new JButton("Ajouter une couleur");
-		button.setAlignmentX(Component.CENTER_ALIGNMENT);
-		button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (panel.getComponentCount() < 11) {
-					list.add(new Couleur());
-					panel.add(list.get(list.size()-1));
-					if (panel.getComponentCount() > 3) {
-						panel.setPreferredSize(new Dimension(800, 74 * panel.getComponentCount()));
-						panel.setLayout(new GridLayout(panel.getComponentCount(), 1));
-					} else {
-						panel.setPreferredSize(new Dimension(800, 74 * (panel.getComponentCount() + 1)));
-						panel.setLayout(new GridLayout(panel.getComponentCount() + 1, 1));
-					}
-					validate();
-					repaint();
-				}
-			}
-		});
+		
 		JLabel legend = new JLabel("                            Selectionner une couleur                               Couleur       Niveau de gris                    Code RGB                  Code Héxadécimal");
 		panel.add(legend);
 		list.add(new Couleur());
@@ -61,14 +44,17 @@ public class Principle extends JFrame{
 	    scroll.setBorder(border);
 	    scroll.getVerticalScrollBar().setUnitIncrement(10);
 		add(scroll);
-		//add(button);
 		
-		JButton apercu = new JButton("Aperçu");
-		//add(apercu);
+		ajouterButton = new JButton("Ajouter une couleur");
+		ajouterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		ajouterButton.addActionListener(this);
+		
+		JButton apercuButton = new JButton("Aperçu");
+		apercuButton.addActionListener(this);
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		buttonPanel.add(button);
-		buttonPanel.add(apercu);
+		buttonPanel.add(ajouterButton);
+		buttonPanel.add(apercuButton);
 		buttonPanel.setPreferredSize(new Dimension(500, 35));
 		add(buttonPanel);
 
@@ -80,6 +66,29 @@ public class Principle extends JFrame{
 		double height = screenSize.getHeight();
 		setLocation((int) ((width/2 - this.getWidth()/2)), (int) (height/2 - this.getHeight()/2));
 		setVisible(true);
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(ajouterButton)) {
+			if (panel.getComponentCount() < 11) {
+				list.add(new Couleur());
+				panel.add(list.get(list.size()-1));
+				if (panel.getComponentCount() > 3) {
+					panel.setPreferredSize(new Dimension(800, 74 * panel.getComponentCount()));
+					panel.setLayout(new GridLayout(panel.getComponentCount(), 1));
+				} else {
+					panel.setPreferredSize(new Dimension(800, 74 * (panel.getComponentCount() + 1)));
+					panel.setLayout(new GridLayout(panel.getComponentCount() + 1, 1));
+				}
+				validate();
+				repaint();
+			}
+		} else {
+			apercu = new Apercu(list);
+			apercu.repaint();
+		}
 		
 	}
 }

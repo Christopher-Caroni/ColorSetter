@@ -114,4 +114,12 @@ public class Couleur extends JPanel {
 			repaint();
 		}
 	}
+	
+	public Color getColor() {
+		return this.couleur;
+	}
+	
+	public Color getGris() {
+		return this.gris;
+	}
 }
