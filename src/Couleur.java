@@ -132,4 +132,8 @@ public class Couleur extends JPanel {
 	public boolean isChecked() {
 		return checkBox.isSelected();
 	}
+	
+	public void setIsChecked(boolean b) {
+		this.checkBox.setSelected(b);
+	}
 }

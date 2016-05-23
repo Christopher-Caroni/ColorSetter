@@ -11,8 +11,10 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
@@ -26,6 +28,11 @@ public class Principle extends JFrame implements ActionListener {
 	private List<Couleur> list;
 	private JButton ajouterButton;
 	private Apercu apercu;
+	private JButton clear;
+	private JButton apercuButton;
+	private JLabel legend;
+	private JPanel topPanel;
+	private JCheckBox topCheckBox;
 	
 	public Principle() {
 		
@@ -35,8 +42,15 @@ public class Principle extends JFrame implements ActionListener {
 				
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		
-		JLabel legend = new JLabel("                                                     Selectionnez une couleur                                                      Couleur              Niveau de gris                  Code RGB                  Code Héxadécimal");
-		panel.add(legend);
+		topPanel = new JPanel();
+		legend = new JLabel("                                          Selectionnez une couleur                                                      Couleur              Niveau de gris                  Code RGB                  Code Héxadécimal");
+		topCheckBox = new JCheckBox();
+		topCheckBox.setSelected(true);
+		topCheckBox.addActionListener(this);
+		topPanel.add(topCheckBox);
+		topPanel.add(legend);
+		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		panel.add(topPanel);
 		list.add(new Couleur());
 		panel.add(list.get(0));
 		panel.setPreferredSize(new Dimension(800, 74 * (panel.getComponentCount()+2)));
@@ -50,12 +64,15 @@ public class Principle extends JFrame implements ActionListener {
 		ajouterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		ajouterButton.addActionListener(this);
 		
-		JButton apercuButton = new JButton("Aperçu");
+		apercuButton = new JButton("Aperçu");
+		clear = new JButton("Reset");
+		clear.addActionListener(this);
 		apercuButton.addActionListener(this);
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		buttonPanel.add(ajouterButton);
 		buttonPanel.add(apercuButton);
+		buttonPanel.add(clear);
 		buttonPanel.setPreferredSize(new Dimension(500, 35));
 		add(buttonPanel);
 
@@ -87,10 +104,40 @@ public class Principle extends JFrame implements ActionListener {
 				validate();
 				repaint();
 			}
+		} else if (e.getSource().equals(clear)) {
+			list.clear();
+			panel.removeAll();
+			panel.add(topPanel);
+			list.add(new Couleur());
+			panel.add(list.get(0));
+			panel.setLayout(new GridLayout(4,  1));
+			panel.setPreferredSize(new Dimension(800, 74 * (panel.getComponentCount()+2)));
+		}  else if (e.getSource().equals(topCheckBox)) {
+			if (topCheckBox.isSelected()) {
+				for (Couleur c : list) {
+					c.setIsChecked(true);
+				}
+			} else {
+				for (Couleur c : list) {
+					c.setIsChecked(false);
+				}
+			}
 		} else {
-			apercu = new Apercu(list);
-			apercu.repaint();
+			boolean tous = true;
+			for (Couleur c : list) {
+				if (!c.isChecked()) {
+					tous = false;
+				}
+			}
+			if (tous) {
+				apercu = new Apercu(list);
+				apercu.repaint();
+			} else {
+				JOptionPane.showMessageDialog(this, "Vous n'avez validé aucune couleur", "Erreur", JOptionPane.ERROR_MESSAGE);
+			}
 		}
+		validate();
+		repaint();
 	}
 	
 	public class Mouse extends MouseInputAdapter {
