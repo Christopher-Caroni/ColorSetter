@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -20,6 +21,7 @@ public class Couleur extends JPanel {
 
 	private BufferedImage buffer;
 	private JLabel imageLabel;
+	private JCheckBox checkBox;
 	private ImageIcon image;
 	private Color couleur;
 	private Color gris;
@@ -45,6 +47,9 @@ public class Couleur extends JPanel {
 		imageLabel.addMouseListener(mouse);
 		imageLabel.addMouseMotionListener(mouse);
 		
+		checkBox = new JCheckBox();
+		checkBox.setSelected(true);
+		
 		Border border = new LineBorder(Color.BLACK, 3);
 		gris = new Color(128, 128, 128);
 		couleur = new Color(255, 255, 255);
@@ -68,14 +73,16 @@ public class Couleur extends JPanel {
 		hexa.setEditable(false);
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT));
+		add(checkBox);
+		add(Box.createRigidArea(new Dimension(10, 25)));
 		add(imageLabel);
 		add(Box.createRigidArea(new Dimension(30, 25)));
 		add(couleurLabel);
 		add(Box.createRigidArea(new Dimension(30, 25)));
 		add(grisLabel);
-		add(Box.createRigidArea(new Dimension(75, 25)));
+		add(Box.createRigidArea(new Dimension(40, 25)));
 		add(rgb);
-		add(Box.createRigidArea(new Dimension(75, 25)));
+		add(Box.createRigidArea(new Dimension(50, 25)));
 		add(hexa);
 		setSize(new Dimension(800, 70));
 	}
@@ -120,5 +127,9 @@ public class Couleur extends JPanel {
 	
 	public Color getGris() {
 		return this.gris;
+	}
+	
+	public boolean isChecked() {
+		return checkBox.isSelected();
 	}
 }

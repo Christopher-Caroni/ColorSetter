@@ -18,10 +18,11 @@ public class Apercu extends JFrame {
 
 	private List<Couleur> liste;
 	private List<Rectangle> listRect;
-	private final int ARR_SIZE = 6;
+	private final int ARROW_SIZE = 6;
 	private List<Integer> hauteurHistogrammes;
 	private final int MAX_HEIGHT;
-	private	final int OFFSET = 75;
+	private	final int VERTICAL_OFFSET = 75;
+	private int numberOfColors = 0;
 	
 	
 	public Apercu(List<Couleur> liste) {
@@ -30,12 +31,14 @@ public class Apercu extends JFrame {
 		hauteurHistogrammes = new ArrayList<>();
 		Random r = new Random();
 		for (int i=0;i<liste.size();i++) {
-			hauteurHistogrammes.add( (int) ((r.nextInt(26) +10) * 10));
+			if (liste.get(i).isChecked()) {
+				hauteurHistogrammes.add( (int) ((r.nextInt(26) +10) * 10));
+				numberOfColors++;
+			}
 		}
 		MAX_HEIGHT = Collections.max(hauteurHistogrammes);
-		
 		setTitle("Aperçu des couleurs");
-		setSize( ((liste.size() * 70) * 2) - 40 + 100 + 150 , MAX_HEIGHT + (OFFSET * 2) + 50);
+		setSize( ((numberOfColors * 70) * 2) - 40 + 100 + 150 , MAX_HEIGHT + (VERTICAL_OFFSET * 2) + 50);
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
@@ -56,33 +59,37 @@ public class Apercu extends JFrame {
 
 		g.setColor(Color.BLACK);
 		// 2e x = offset + largeur rect + 20 + 5 car 70 = largeur rect + 20
-		drawArrow(g, x-25, getHeight() - OFFSET + y, liste.size() * 70 + x + 5, getHeight() - OFFSET + y); // axe X
-		drawArrow(g, x-25, getHeight() - OFFSET + y, x-25, getHeight() - OFFSET - MAX_HEIGHT - 50 + y); // axe Y
+		drawArrow(g, x-25, getHeight() - VERTICAL_OFFSET + y, numberOfColors * 70 + x + 5, getHeight() - VERTICAL_OFFSET + y); // axe X
+		drawArrow(g, x-25, getHeight() - VERTICAL_OFFSET + y, x-25, getHeight() - VERTICAL_OFFSET - MAX_HEIGHT - 50 + y); // axe Y
 
 		for (int i = 0; i< liste.size();i++) {
-			g.setColor(Color.BLACK);
-			g.drawString("Couleur " + (i+1), x,  getHeight() - ((int)(OFFSET / 1.5)) );
-			g.fillRect(x-1, getHeight()-hauteurHistogrammes.get(i) - OFFSET-1, 50+2, hauteurHistogrammes.get(i)+2);
-			g.setColor(liste.get(i).getColor());
-			g.fillRect(x, getHeight()-hauteurHistogrammes.get(i) - OFFSET, 50, hauteurHistogrammes.get(i));
-			listRect.add(new Rectangle(x, getHeight()-hauteurHistogrammes.get(i) - OFFSET, 50, hauteurHistogrammes.get(i)));
-			x += 70;
+			if (liste.get(i).isChecked()) {
+				g.setColor(Color.BLACK);
+				g.drawString("Couleur " + (i+1), x,  getHeight() - ((int)(VERTICAL_OFFSET / 1.5)) );
+				g.fillRect(x-1, getHeight()-hauteurHistogrammes.get(i) - VERTICAL_OFFSET-1, 50+2, hauteurHistogrammes.get(i)+2); // rectangle noir en dessous = border
+				g.setColor(liste.get(i).getColor());
+				g.fillRect(x, getHeight()-hauteurHistogrammes.get(i) - VERTICAL_OFFSET, 50, hauteurHistogrammes.get(i));
+				listRect.add(new Rectangle(x, getHeight()-hauteurHistogrammes.get(i) - VERTICAL_OFFSET, 50, hauteurHistogrammes.get(i)));
+				x += 70;
+			}
 		}
 
 		x = getWidth() / 2 + 50;
 
 		g.setColor(Color.BLACK);
-		drawArrow(g, x-25, getHeight() - OFFSET + y, liste.size() * 70 + x + 5, getHeight() - OFFSET + y); // axe X
-		drawArrow(g, x-25, getHeight() - OFFSET + y, x-25, getHeight() - OFFSET - MAX_HEIGHT - 50 + y); // axe Y
+		drawArrow(g, x-25, getHeight() - VERTICAL_OFFSET + y, numberOfColors * 70 + x + 5, getHeight() - VERTICAL_OFFSET + y); // axe X
+		drawArrow(g, x-25, getHeight() - VERTICAL_OFFSET + y, x-25, getHeight() - VERTICAL_OFFSET - MAX_HEIGHT - 50 + y); // axe Y
 		
 		for (int i = 0; i< liste.size();i++) {
-			g.setColor(Color.BLACK);
-			g.drawString("Couleur " + (i+1), x,  getHeight() - ((int)(OFFSET / 1.5)) );
-			g.fillRect(x-1, getHeight()-hauteurHistogrammes.get(i) - OFFSET-1, 50+2, hauteurHistogrammes.get(i)+2);
-			g.setColor(liste.get(i).getGris());
-			g.fillRect(x, getHeight()-hauteurHistogrammes.get(i) - OFFSET, 50, hauteurHistogrammes.get(i));
-			listRect.add(new Rectangle(x, getHeight()-hauteurHistogrammes.get(i) - OFFSET, 50, hauteurHistogrammes.get(i)));
-			x += 70;
+			if (liste.get(i).isChecked()) {
+				g.setColor(Color.BLACK);
+				g.drawString("Couleur " + (i+1), x,  getHeight() - ((int)(VERTICAL_OFFSET / 1.5)) );
+				g.fillRect(x-1, getHeight()-hauteurHistogrammes.get(i) - VERTICAL_OFFSET-1, 50+2, hauteurHistogrammes.get(i)+2);
+				g.setColor(liste.get(i).getGris());
+				g.fillRect(x, getHeight()-hauteurHistogrammes.get(i) - VERTICAL_OFFSET, 50, hauteurHistogrammes.get(i));
+				listRect.add(new Rectangle(x, getHeight()-hauteurHistogrammes.get(i) - VERTICAL_OFFSET, 50, hauteurHistogrammes.get(i)));
+				x += 70;
+			}
 		}
 	}
 	
@@ -107,8 +114,8 @@ public class Apercu extends JFrame {
         g.setStroke(new BasicStroke(2));
         // Draw horizontal arrow starting in (0, 0)
         g.drawLine(0, 0, len-2, 0);
-        g.fillPolygon(new int[] {len, len-ARR_SIZE, len-ARR_SIZE, len},
-                      new int[] {0, -ARR_SIZE, ARR_SIZE, 0}, 4);
+        g.fillPolygon(new int[] {len, len-ARROW_SIZE, len-ARROW_SIZE, len},
+                      new int[] {0, -ARROW_SIZE, ARROW_SIZE, 0}, 4);
     }
 
 }

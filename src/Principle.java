@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
+import javax.swing.event.MouseInputAdapter;
 
 @SuppressWarnings("serial")
 public class Principle extends JFrame implements ActionListener {
@@ -34,7 +35,7 @@ public class Principle extends JFrame implements ActionListener {
 				
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		
-		JLabel legend = new JLabel("                            Selectionner une couleur                               Couleur       Niveau de gris                    Code RGB                  Code Héxadécimal");
+		JLabel legend = new JLabel("                                                     Selectionnez une couleur                                                      Couleur              Niveau de gris                  Code RGB                  Code Héxadécimal");
 		panel.add(legend);
 		list.add(new Couleur());
 		panel.add(list.get(0));
@@ -90,6 +91,9 @@ public class Principle extends JFrame implements ActionListener {
 			apercu = new Apercu(list);
 			apercu.repaint();
 		}
+	}
+	
+	public class Mouse extends MouseInputAdapter {
 		
 	}
 }
