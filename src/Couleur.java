@@ -31,6 +31,7 @@ public class Couleur extends JPanel {
 	private JTextField hexa = new JTextField();
 	private int niveauGris;
 	private MouseInput mouse;
+	private Border border;
 	
 	public Couleur () {
 		
@@ -50,7 +51,7 @@ public class Couleur extends JPanel {
 		checkBox = new JCheckBox();
 		checkBox.setSelected(true);
 		
-		Border border = new LineBorder(Color.BLACK, 3);
+		border = new LineBorder(Color.BLACK, 3);
 		gris = new Color(128, 128, 128);
 		couleur = new Color(255, 255, 255);
 		couleurLabel = new JLabel();

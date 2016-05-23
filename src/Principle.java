@@ -33,6 +33,9 @@ public class Principle extends JFrame implements ActionListener {
 	private JLabel legend;
 	private JPanel topPanel;
 	private JCheckBox topCheckBox;
+	private JScrollPane scroll;
+	private Border border;
+	private JPanel buttonPanel;
 	
 	public Principle() {
 		
@@ -54,8 +57,8 @@ public class Principle extends JFrame implements ActionListener {
 		list.add(new Couleur());
 		panel.add(list.get(0));
 		panel.setPreferredSize(new Dimension(800, 74 * (panel.getComponentCount()+2)));
-		JScrollPane scroll = new JScrollPane(panel);
-		Border border = BorderFactory.createTitledBorder("Liste des couleurs");
+		scroll = new JScrollPane(panel);
+		border = BorderFactory.createTitledBorder("Liste des couleurs");
 	    scroll.setBorder(border);
 	    scroll.getVerticalScrollBar().setUnitIncrement(10);
 		add(scroll);
@@ -68,7 +71,7 @@ public class Principle extends JFrame implements ActionListener {
 		clear = new JButton("Reset");
 		clear.addActionListener(this);
 		apercuButton.addActionListener(this);
-		JPanel buttonPanel = new JPanel();
+		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		buttonPanel.add(ajouterButton);
 		buttonPanel.add(apercuButton);
@@ -133,7 +136,7 @@ public class Principle extends JFrame implements ActionListener {
 			if (tous) {
 				apercu = new Apercu(list);
 				apercu.repaint();
-			} else {
+			} else if (e.getSource().equals(apercu)){
 				Object[] options = { "Oui, merci !", "Non merci !" };
 				int n = JOptionPane.showOptionDialog(this, "Vous n'avez validée aucune couleur. Voulez-vous tous les valider et passer à l'aperçu ?", "Aucune couleur validée",
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
