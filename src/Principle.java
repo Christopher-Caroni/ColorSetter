@@ -1,5 +1,6 @@
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -22,7 +23,7 @@ public class Principle extends JFrame{
 	public Principle() {
 		
 		panel = new JPanel();
-		panel.setLayout(new GridLayout(11,1));
+		panel.setLayout(new GridLayout(4,  1));
 				
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		JButton button = new JButton("Ajouter une couleur");
@@ -33,6 +34,8 @@ public class Principle extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				if (panel.getComponentCount() < 11) {
 					panel.add(new Couleur());
+					panel.setPreferredSize(new Dimension(850, 74 * (panel.getComponentCount()+2) ));	
+					panel.setLayout(new GridLayout(panel.getComponentCount()+2, 1));
 					validate();
 					repaint();
 				}
@@ -41,6 +44,7 @@ public class Principle extends JFrame{
 		JLabel legend = new JLabel("                            Selectionner une couleur                               Couleur       Niveau de gris                    Code RGB");
 		panel.add(legend);
 		panel.add(new Couleur());
+		panel.setPreferredSize(new Dimension(850, 74 * panel.getComponentCount()));
 		JScrollPane scroll = new JScrollPane(panel);
 		Border border = BorderFactory.createTitledBorder("Liste des couleurs");
 	    scroll.setBorder(border);
@@ -48,7 +52,7 @@ public class Principle extends JFrame{
 		add(scroll);
 		add(button);
 
-		setSize(new Dimension(850,500));
+		setSize(new Dimension(850, 400));
 		setTitle("Color setter");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
