@@ -133,7 +133,16 @@ public class Principle extends JFrame implements ActionListener {
 				apercu = new Apercu(list);
 				apercu.repaint();
 			} else {
-				JOptionPane.showMessageDialog(this, "Vous n'avez validé aucune couleur", "Erreur", JOptionPane.ERROR_MESSAGE);
+				Object[] options = { "Oui, merci !", "Non merci !" };
+				int n = JOptionPane.showOptionDialog(this, "Vous n'avez validée aucune couleur. Voulez-vous tous les valider et passer à l'aperçu ?", "Aucune couleur validée",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+				if (n == JOptionPane.YES_OPTION) {
+					for (Couleur c : list) {
+						c.setIsChecked(true);
+					}
+					apercu = new Apercu(list);
+					apercu.repaint();
+				}
 			}
 		}
 		validate();
