@@ -3,16 +3,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JFrame;
-import javax.swing.event.MouseInputAdapter;
 
 
 public class Apercu extends JFrame {
@@ -20,18 +19,23 @@ public class Apercu extends JFrame {
 	private List<Couleur> liste;
 	private List<Rectangle> listRect;
 	private final int ARR_SIZE = 6;
-	private int[] hauteurHistogrammes = new int[]{200,250,175,150,165};
-	private List<Integer> array;
+	private List<Integer> hauteurHistogrammes;
+	private final int MAX_HEIGHT;
+	private	final int OFFSET = 75;
 	
 	
 	public Apercu(List<Couleur> liste) {
 		this.liste = liste;
 		listRect = new ArrayList<>();
-		array = new ArrayList<>();
-		array.add(200);
+		hauteurHistogrammes = new ArrayList<>();
+		Random r = new Random();
+		for (int i=0;i<liste.size();i++) {
+			hauteurHistogrammes.add( (int) ((r.nextInt(26) +10) * 10));
+		}
+		MAX_HEIGHT = Collections.max(hauteurHistogrammes);
 		
 		setTitle("Aperçu des couleurs");
-		setSize( ((liste.size() * 70) * 2) - 40 + 100 + 150 , 500);
+		setSize( ((liste.size() * 70) * 2) - 40 + 100 + 150 , MAX_HEIGHT + (OFFSET * 2) + 50);
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
@@ -42,38 +46,54 @@ public class Apercu extends JFrame {
 		
 	}
 	
-	public void paint (Graphics g){
-			
+	public void paint (Graphics g1){
+
+        Graphics2D g = (Graphics2D) g1.create();
+        
 		/* Histogrammes */
 		int x = 75;
 		int y = 1;
 
 		g.setColor(Color.BLACK);
 		// 2e x = offset + largeur rect + 20 + 5 car 70 = largeur rect + 20
-		drawArrow(g, x-25, getHeight() - 50 + y, liste.size() * 70 + x + 5, getHeight() - 50 + y);
-		drawArrow(g, x-25, getHeight() - 50 + y, x-25, getHeight() - 50 - 300 + y);
+		drawArrow(g, x-25, getHeight() - OFFSET + y, liste.size() * 70 + x + 5, getHeight() - OFFSET + y); // axe X
+		drawArrow(g, x-25, getHeight() - OFFSET + y, x-25, getHeight() - OFFSET - MAX_HEIGHT - 50 + y); // axe Y
 
 		for (int i = 0; i< liste.size();i++) {
+			g.setColor(Color.BLACK);
+			g.drawString("Couleur " + (i+1), x,  getHeight() - ((int)(OFFSET / 1.5)) );
+			g.fillRect(x-1, getHeight()-hauteurHistogrammes.get(i) - OFFSET-1, 50+2, hauteurHistogrammes.get(i)+2);
 			g.setColor(liste.get(i).getColor());
-			g.fillRect(x, getHeight()-hauteurHistogrammes[i] - 50, 50, hauteurHistogrammes[i]);
-			listRect.add(new Rectangle(x, getHeight()-hauteurHistogrammes[i] - 50, 50, hauteurHistogrammes[i]));
+			g.fillRect(x, getHeight()-hauteurHistogrammes.get(i) - OFFSET, 50, hauteurHistogrammes.get(i));
+			listRect.add(new Rectangle(x, getHeight()-hauteurHistogrammes.get(i) - OFFSET, 50, hauteurHistogrammes.get(i)));
 			x += 70;
 		}
 
 		x = getWidth() / 2 + 50;
 
 		g.setColor(Color.BLACK);
-		drawArrow(g, x-25, getHeight() - 50 + y, liste.size() * 70 + x + 5, getHeight() - 50 + y);
-		drawArrow(g, x-25, getHeight() - 50 + y, x-25, getHeight() - 50 - 300 + y);
+		drawArrow(g, x-25, getHeight() - OFFSET + y, liste.size() * 70 + x + 5, getHeight() - OFFSET + y); // axe X
+		drawArrow(g, x-25, getHeight() - OFFSET + y, x-25, getHeight() - OFFSET - MAX_HEIGHT - 50 + y); // axe Y
 		
 		for (int i = 0; i< liste.size();i++) {
+			g.setColor(Color.BLACK);
+			g.drawString("Couleur " + (i+1), x,  getHeight() - ((int)(OFFSET / 1.5)) );
+			g.fillRect(x-1, getHeight()-hauteurHistogrammes.get(i) - OFFSET-1, 50+2, hauteurHistogrammes.get(i)+2);
 			g.setColor(liste.get(i).getGris());
-			g.fillRect(x, getHeight()-hauteurHistogrammes[i] -50, 50, hauteurHistogrammes[i]);
-			listRect.add(new Rectangle(x, getHeight()-hauteurHistogrammes[i]-50, 50, hauteurHistogrammes[i]));
+			g.fillRect(x, getHeight()-hauteurHistogrammes.get(i) - OFFSET, 50, hauteurHistogrammes.get(i));
+			listRect.add(new Rectangle(x, getHeight()-hauteurHistogrammes.get(i) - OFFSET, 50, hauteurHistogrammes.get(i)));
 			x += 70;
 		}
 	}
 	
+	/**
+	 *  Pris de http://stackoverflow.com/questions/4112701/drawing-a-line-with-arrow-in-java
+	 * @param g1 le graphics du component
+	 * @param x1 X du premier point
+	 * @param y1 Y du premier point
+	 * @param x2 X du second point
+	 * @param y2 Y du second point
+	 */
     void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) {
         Graphics2D g = (Graphics2D) g1.create();
 
