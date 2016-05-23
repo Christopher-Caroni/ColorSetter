@@ -33,7 +33,6 @@ public class Principle extends JFrame{
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		JButton button = new JButton("Ajouter une couleur");
 		button.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -56,13 +55,22 @@ public class Principle extends JFrame{
 		panel.add(legend);
 		list.add(new Couleur());
 		panel.add(list.get(0));
-		panel.setPreferredSize(new Dimension(800, 74 * panel.getComponentCount()));
+		panel.setPreferredSize(new Dimension(800, 74 * (panel.getComponentCount()+2)));
 		JScrollPane scroll = new JScrollPane(panel);
 		Border border = BorderFactory.createTitledBorder("Liste des couleurs");
 	    scroll.setBorder(border);
-	    scroll.getVerticalScrollBar().setUnitIncrement(10);;
+	    scroll.getVerticalScrollBar().setUnitIncrement(10);
 		add(scroll);
-		add(button);
+		//add(button);
+		
+		JButton apercu = new JButton("Aperçu");
+		//add(apercu);
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		buttonPanel.add(button);
+		buttonPanel.add(apercu);
+		buttonPanel.setPreferredSize(new Dimension(500, 35));
+		add(buttonPanel);
 
 		setSize(new Dimension(1000, 400));
 		setMinimumSize(getSize());
