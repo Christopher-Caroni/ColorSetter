@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.event.MouseInputAdapter;
+import javax.swing.plaf.basic.BasicArrowButton;
 
 
 public class Couleur extends JPanel {
@@ -32,6 +33,8 @@ public class Couleur extends JPanel {
 	private int niveauGris;
 	private MouseInput mouse;
 	private Border border;
+	private BasicArrowButton up;
+	private BasicArrowButton down;
 	
 	public Couleur () {
 		
@@ -50,6 +53,8 @@ public class Couleur extends JPanel {
 		
 		checkBox = new JCheckBox();
 		checkBox.setSelected(true);
+		up = new BasicArrowButton(BasicArrowButton.NORTH);
+		down = new BasicArrowButton(BasicArrowButton.SOUTH);
 		
 		border = new LineBorder(Color.BLACK, 3);
 		gris = new Color(128, 128, 128);
@@ -75,6 +80,8 @@ public class Couleur extends JPanel {
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(checkBox);
+		add(up);
+		add(down);
 		add(Box.createRigidArea(new Dimension(10, 25)));
 		add(imageLabel);
 		add(Box.createRigidArea(new Dimension(30, 25)));
@@ -136,5 +143,13 @@ public class Couleur extends JPanel {
 	
 	public void setIsChecked(boolean b) {
 		this.checkBox.setSelected(b);
+	}
+	
+	public BasicArrowButton getUpButton() {
+		return up;
+	}
+	
+	public BasicArrowButton getDownButton() {
+		return down;
 	}
 }
