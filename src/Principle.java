@@ -59,14 +59,8 @@ public class Principle extends JFrame implements ActionListener {
 		topPanel.add(legend);
 		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		panel.add(topPanel);
-		list.add(new Couleur());
-		panel.add(list.get(0));
-		list.get(0).getUpButton().addActionListener(this);
-		list.get(0).getDownButton().addActionListener(this);
-		list.get(list.size()-1).getUpButton().setActionCommand("" + 0);
-		list.get(list.size()-1).getDownButton().setActionCommand("" + 1);
-		buttonCache.put("" + 0, list.get(0).getUpButton());
-		buttonCache.put("" + 1, list.get(0).getDownButton());
+		
+		addNewCouleur();
 		
 		panel.setPreferredSize(new Dimension(800, 74 * (panel.getComponentCount()+2)));
 		scroll = new JScrollPane(panel);
@@ -107,59 +101,28 @@ public class Principle extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof BasicArrowButton) {
 			// up
+			// les actionCommand sont des nombres pairs pour UP
 			if ( ((Double.parseDouble(e.getActionCommand())) % 2) == 0.0 ) {
 				int place = (Integer.parseInt(e.getActionCommand())) /2;
 				if ( place > 0) {
 					Collections.swap(list, place, place-1);
-					panel.removeAll();
-					topCheckBox.setSelected(true);
-					panel.add(topPanel);
-					
-					int count = 0;
-					for (int i=0; i<list.size();i++) {
-						panel.add(list.get(i));
-						list.get(i).getUpButton().setActionCommand("" + count);
-						count++;
-						list.get(i).getDownButton().setActionCommand("" + count);
-						count++;
-					}
-					validate();
-					repaint();
+					removeAndReadd();
 				}
-				// down
+			// down
+				// les actionCommand sont des nombre impairs pour DOWN
+				// il sont ajoutés après UP donc pour obtenir leur place, il faut retirer un puis diviser par 2
 			} else if ( ((Double.parseDouble(e.getActionCommand())) % 2) != 0.0 ) {
 				int place = (Integer.parseInt(e.getActionCommand()) -1 ) /2;
 				if ( place < list.size()-1) {
 					Collections.swap(list, place, place+1);
-					panel.removeAll();
-					topCheckBox.setSelected(true);
-					panel.add(topPanel);
-					
-					int count = 0;
-					for (int i=0; i<list.size();i++) {
-						panel.add(list.get(i));
-						list.get(i).getUpButton().setActionCommand("" + count);
-						count++;
-						list.get(i).getDownButton().setActionCommand("" + count);
-						count++;
-					}
-					validate();
-					repaint();
+					removeAndReadd();
 				}
 			}
 		}
 		if (e.getSource().equals(ajouterButton)) {
 			if (panel.getComponentCount() < 11) {
-				list.add(new Couleur());
-				panel.add(list.get(list.size()-1));
-				
-				list.get(list.size()-1).getUpButton().addActionListener(this);
-				list.get(list.size()-1).getDownButton().addActionListener(this);
-				list.get(list.size()-1).getUpButton().setActionCommand("" + (list.size()));
-				list.get(list.size()-1).getDownButton().setActionCommand("" + (list.size()+1));
-				buttonCache.put("" + (list.size()-1), list.get(0).getUpButton());
-				buttonCache.put("" + (list.size()-1), list.get(0).getDownButton());
-				
+
+				addNewCouleur();
 				
 				if (panel.getComponentCount() > 3) {
 					panel.setPreferredSize(new Dimension(800, 74 * panel.getComponentCount()));
@@ -173,22 +136,18 @@ public class Principle extends JFrame implements ActionListener {
 			}
 		} else if (e.getSource().equals(clear)) {
 			list.clear();
+			buttonCache.clear();
 			panel.removeAll();
 			topCheckBox.setSelected(true);
 			panel.add(topPanel);
-			list.add(new Couleur());
-			panel.add(list.get(0));
+			
+			addNewCouleur();
+			
 			panel.setLayout(new GridLayout(4,  1));
 			panel.setPreferredSize(new Dimension(800, 74 * (panel.getComponentCount()+2)));
 		}  else if (e.getSource().equals(topCheckBox)) {
-			if (topCheckBox.isSelected()) {
-				for (Couleur c : list) {
-					c.setIsChecked(true);
-				}
-			} else {
-				for (Couleur c : list) {
-					c.setIsChecked(false);
-				}
+			for (Couleur c : list) {
+				c.setIsChecked(topCheckBox.isSelected());
 			}
 		} else if (e.getSource().equals(apercuButton)){
 			boolean tousFalse = true;
@@ -216,6 +175,36 @@ public class Principle extends JFrame implements ActionListener {
 		}
 		validate();
 		repaint();
+	}
+	
+	public void removeAndReadd() {
+		panel.removeAll();
+		topCheckBox.setSelected(true);
+		panel.add(topPanel);
+		
+		int count = 0;
+		for (int i=0; i<list.size();i++) {
+			panel.add(list.get(i));
+			list.get(i).getUpButton().setActionCommand("" + count);
+			count++;
+			list.get(i).getDownButton().setActionCommand("" + count);
+			count++;
+		}
+	}
+	
+	/**
+	 * Ajoute une nouvelle Couleur à la liste et initialise ses {@link BasicArrowButton}
+	 */
+	public void addNewCouleur() {
+		list.add(new Couleur());
+		int i = (list.size()-1);
+		list.get(i).getUpButton().addActionListener(this);
+		list.get(i).getDownButton().addActionListener(this);
+		list.get(i).getUpButton().setActionCommand("" + (i*2));
+		list.get(i).getDownButton().setActionCommand("" + ((i*2)+1));
+		buttonCache.put("" + (i*2), list.get(i).getUpButton());
+		buttonCache.put("" + ((i*2)+1), list.get(i).getDownButton());
+		panel.add(list.get(i));
 	}
 	
 	public class Mouse extends MouseInputAdapter {
