@@ -1,6 +1,7 @@
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -51,7 +52,8 @@ public class Principle extends JFrame implements ActionListener {
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		
 		topPanel = new JPanel();
-		legend = new JLabel("                                          Selectionnez une couleur                                                      Couleur              Niveau de gris                  Code RGB                  Code Héxadécimal");
+		legend = new JLabel("                                          Selectionnez une couleur                                     Couleur        Niveau de gris          Code RGB           Code Héxadécimal");
+		legend.setFont(new Font("Arial Black", Font.BOLD, 12));
 		topCheckBox = new JCheckBox();
 		topCheckBox.setSelected(true);
 		topCheckBox.addActionListener(this);
