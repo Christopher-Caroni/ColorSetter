@@ -41,7 +41,7 @@ public class Couleur extends JPanel {
 	private Border border;
 	private BasicArrowButton up;
 	private BasicArrowButton down;
-	private int x;
+	private int x = 374/2;
 
 	public Couleur() {
 		try {
@@ -49,7 +49,7 @@ public class Couleur extends JPanel {
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 		}
-		image = Toolkit.getDefaultToolkit().getImage("Ressources/SpectrumBar.jpg");
+		image = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("SpectrumBar.jpg"));
 		imageComp = new JComponent() {
 			@Override
 			public void paint(Graphics arg0) {
@@ -59,6 +59,7 @@ public class Couleur extends JPanel {
 			}
 		};
 		imageComp.setPreferredSize(new Dimension(368, 64));
+		imageComp.repaint();
 		mouse = new MouseInput();
 		// il faut ces deux pour detecter d'un côté les clics et les drags
 		imageComp.addMouseListener(mouse);
